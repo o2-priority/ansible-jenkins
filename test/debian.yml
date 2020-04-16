@@ -1,3 +1,5 @@
 ---
 java_package: "openjdk-8-jdk"
-jenkins_version: "2.204.5"
+jenkins_version: "2.121.3"
+jenkins_update_plugins: true
+jenkins_plugins_dir: /var/tmp/plugins

@@ -74,6 +74,13 @@
   when: jenkins_update_plugins
   notify: Restart jenkins
 
+- name: Copy jenkins plugins to required location
+  synchronize:
+    src: "{{ jenkins_plugins_dir }}/"
+    dest: "{{ jenkins_home }}/plugins/"
+  delegate_to: "{{ inventory_hostname }}"
+  when: "jenkins_update_plugins and jenkins_plugins_dir != '{{ jenkins_home }}/plugins'"
+
 - name: Create jenkins startup script default config | Debian
   template:
     src:   etc.default.jenkins.j2
@@ -130,3 +137,4 @@
     state: started
   retries: 3
   delay: 30
+  when: jenkins_use_nvd_container

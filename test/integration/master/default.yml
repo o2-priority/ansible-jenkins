@@ -5,10 +5,16 @@
     - roles/ansible-jenkins/test/vars.yml
     - roles/ansible-jenkins/test/{{ ansible_os_family|lower }}.yml
 
-
+  pre_tasks:
+    - name: Remove Ansible system package
+      apt:
+        name: ansible
+        state: absent
+        force: true
 
   roles:
     - o2-priority.java
+    #- o2-priority.docker
     - ansible-jenkins
 
 

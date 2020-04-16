@@ -95,3 +95,4 @@
     state: started
   retries: 3
   delay: 30
+  when: jenkins_slave_use_nvd_container
