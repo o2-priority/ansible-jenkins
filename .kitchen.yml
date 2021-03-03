@@ -27,7 +27,8 @@ platforms:
       run_command: /sbin/init
       provision_command:
         - apt-get update
-        - apt-get install -y iproute git python-pip curl
+        - apt-get install -y iproute git python-pip curl ruby
+        - pip install --upgrade pip==20.3.4
         - pip install ansible==2.4.3.0 pyhamcrest pyOpenSSL>=0.14
   - name: centos-7.2
     driver_config:
@@ -40,6 +41,9 @@ platforms:
         # https://github.com/CentOS/CentOS-Dockerfiles/issues/173
         - systemctl enable systemd-user-sessions.service && ln -s /usr/lib/systemd/system/systemd-user-sessions.service /etc/systemd/system/default.target.wants/systemd-user-sessions.service
 
+# added as per https://github.com/neillturner/kitchen-ansible/issues/66 fix
+verifier:
+  ruby_bindir: '/usr/bin'
 
 suites:
   - name: master
