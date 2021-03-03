@@ -41,6 +41,7 @@ platforms:
         # https://github.com/CentOS/CentOS-Dockerfiles/issues/173
         - systemctl enable systemd-user-sessions.service && ln -s /usr/lib/systemd/system/systemd-user-sessions.service /etc/systemd/system/default.target.wants/systemd-user-sessions.service
 
+# added as per https://github.com/neillturner/kitchen-ansible/issues/66 fix
 verifier:
   ruby_bindir: '/usr/bin'
 
