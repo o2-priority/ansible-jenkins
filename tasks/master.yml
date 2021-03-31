@@ -120,6 +120,16 @@
   when: ansible_os_family|lower == 'redhat'
   notify: Restart jenkins
 
+- name: check jenkins admin password file in master
+  stat:
+    path: "{{ jenkins_home }}/secrets/initialAdminPassword"
+  register: password_file
+
+- name: Fail is  jenkins admin password file is not present in master
+  fail:
+    msg: "{{ jenkins_home }}/secrets/initialAdminPassword file is not available"
+  when: password_file.stat.exists == False
+
 - name: Start jenkins
   service: name=jenkins enabled=yes state=started
 

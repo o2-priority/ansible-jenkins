@@ -1,5 +1,15 @@
 ---
 
+- name: check jenkins admin password file in users creation
+  stat:
+    path: "{{ jenkins_home }}/secrets/initialAdminPassword"
+  register: password_file
+
+- name: Fail is  jenkins admin password file is not present
+  fail:
+    msg: "{{ jenkins_home }}/secrets/initialAdminPassword file is not available"
+  when: password_file.stat.exists == False
+
 - name: Get jenkins admin password
   shell: >
       cat {{ jenkins_home }}/secrets/initialAdminPassword || true
