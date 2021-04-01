@@ -80,7 +80,7 @@
   register: var_jenkins
 
 - name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
-  shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}"
+  shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}; chown -R jenkins:jenkins {{ jenkins_home }}"
   when: var_jenkins.stat.exists
 
 - name: Remove /var/lib/jenkins directory
