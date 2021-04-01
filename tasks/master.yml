@@ -74,6 +74,10 @@
     move_home: yes
   when: not h.stat.isdir|default(false)
 
+- name: Copy jenkins data to home directory
+  command: "mv /var/lib/jenkins/* {{ jenkins_home }}"
+  when: not h.stat.isdir|default(false)
+
 - name: Create jenkins plugins directory
   file:
     path:  "{{ jenkins_plugins_dir }}"
