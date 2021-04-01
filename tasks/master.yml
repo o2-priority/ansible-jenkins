@@ -75,7 +75,7 @@
   when: not h.stat.isdir|default(false)
 
 - name: Copy jenkins data to home directory
-  command: "mv /var/lib/jenkins/* {{ jenkins_home }}"
+  shell: "[[$(ls -A /var/lib/jenkins) ]] && mv /var/lib/jenkins/* {{ jenkins_home }}"
   when: not h.stat.isdir|default(false)
 
 - name: Create jenkins plugins directory
