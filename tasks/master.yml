@@ -83,7 +83,7 @@
   copy:
     remote_src: True
     src: /var/lib/jenkins
-    dest: {{ jenkins_home }}
+    dest: "{{ jenkins_home }}"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
   when: var_jenkins.stat.exists
