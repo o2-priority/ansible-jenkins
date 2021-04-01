@@ -80,12 +80,7 @@
   register: var_jenkins
 
 - name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
-  copy:
-    remote_src: True
-    src: /var/lib/jenkins
-    dest: "{{ jenkins_home }}"
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_group }}"
+  shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}"
   when: var_jenkins.stat.exists
 
 - name: Remove /var/lib/jenkins directory
