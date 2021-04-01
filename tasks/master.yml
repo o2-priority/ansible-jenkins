@@ -48,23 +48,24 @@
   shell: pkill -u jenkins || true
   when: not h.stat.isdir|default(false)
 
-- name: sleep for 1 minute
+- name: wait for 30 secs to stop jenkins
   pause:
-    minutes: 1
+    minutes: 0.5
+  when: not h.stat.isdir|default(false)
 
-- name: Get the PID of jenkins process
-  ignore_errors: yes
-  shell: "ps -few | grep jenkins | grep -v grep | awk '{print $2}'"
-  register: running_processes
-
-- name: Kill jenkins processes
-  ignore_errors: yes
-  shell: "kill -9 {{ item }}"
-  with_items: "{{ running_processes.stdout_lines }}"
-
-- name: sleep for 1 minute
-  pause:
-    minutes: 1
+#- name: Get the PID of jenkins process
+#  ignore_errors: yes
+#  shell: "ps -few | grep jenkins | grep -v grep | awk '{print $2}'"
+#  register: running_processes
+#
+#- name: Kill jenkins processes
+#  ignore_errors: yes
+#  shell: "kill -9 {{ item }}"
+#  with_items: "{{ running_processes.stdout_lines }}"
+#
+#- name: sleep for 1 minute
+#  pause:
+#    minutes: 1
 
 - name: Ensure jenkins user home directory is in the appropriate location
   user:
