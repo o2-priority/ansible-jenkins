@@ -76,7 +76,6 @@
 
 - name: Copy jenkins data to home directory
   shell: "[[$(ls -A /var/lib/jenkins) ]] && mv /var/lib/jenkins/* {{ jenkins_home }}"
-  when: not h.stat.isdir|default(false)
 
 - name: Create jenkins plugins directory
   file:
