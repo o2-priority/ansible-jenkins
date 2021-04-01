@@ -84,7 +84,7 @@
   when: var_jenkins.stat.exists
 
 - name: Remove /var/lib/jenkins directory
-  file: path=/var/lib/jenkins state=absent
+  file: path=/var/lib/jenkins/ state=absent
   when: var_jenkins.stat.exists
 
 - name: Create jenkins plugins directory
