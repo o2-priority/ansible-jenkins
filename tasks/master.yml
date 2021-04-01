@@ -48,6 +48,10 @@
   shell: pkill -u jenkins || true
   when: not h.stat.isdir|default(false)
 
+- name: sleep for 5 minutes
+  pause:
+    minutes: 5
+
 - name: Get the PID of jenkins process
   ignore_errors: yes
   shell: "ps -few | grep jenkins | awk '{print $2}'"
