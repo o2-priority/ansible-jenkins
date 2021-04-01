@@ -74,8 +74,11 @@
     move_home: yes
   when: not h.stat.isdir|default(false)
 
-- name: Copy jenkins data to home directory
-  shell: "[[$(ls -A /var/lib/jenkins) ]] && mv /var/lib/jenkins/* {{ jenkins_home }}"
+- name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
+  copy: src=/var/lib/jenkins dest={{ jenkins_home }}
+
+- name: Remove /var/lib/jenkins directory
+  file: path=/var/lib/jenkins state=absent
 
 - name: Create jenkins plugins directory
   file:
