@@ -48,6 +48,9 @@
   shell: pkill -u jenkins || true
   when: not h.stat.isdir|default(false)
 
+- name: sleep for 15 secs
+  shell: sleep 15
+
 - name: Ensure jenkins user home directory is in the appropriate location
   user:
     name:  "{{ jenkins_user }}"
