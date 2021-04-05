@@ -121,16 +121,16 @@
   with_items:
     - "{{ plugins_with_jpi.files }}"
 
-#- name: Install jenkins plugins
-#  get_url:
-#    url:   "{{ jenkins_update_center_download_url }}/plugins/{{ item.split(':')[0] }}/{{ item.split(':')[1]|default('latest') }}/{{ item.split(':')[0] }}.hpi"
-#    dest:  "{{ jenkins_plugins_dir }}"
-#    owner: "{{ jenkins_user }}"
-#    group: "{{ jenkins_group }}"
-#    mode:  0644
-#  with_items: "{{ jenkins_plugins | unique }}"
-#  when: jenkins_update_plugins
-#  notify: Restart jenkins
+- name: Install jenkins plugins
+  get_url:
+    url:   "{{ jenkins_update_center_download_url }}/plugins/{{ item.split(':')[0] }}/{{ item.split(':')[1]|default('latest') }}/{{ item.split(':')[0] }}.hpi"
+    dest:  "{{ jenkins_plugins_dir }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode:  0644
+  with_items: "{{ jenkins_plugins | unique }}"
+  when: jenkins_update_plugins
+  notify: Restart jenkins
 
 - name: Create jenkins startup script default config | Debian
   template:
