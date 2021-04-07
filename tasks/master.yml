@@ -87,11 +87,11 @@
 
 - name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
   shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}; chown -R jenkins:jenkins {{ jenkins_home }}"
-  when: var_jenkins.stat.exists and contents["contents_var_jenkins"] | length > 2
+  when: var_jenkins.stat.exists and contents_var_jenkins["stdout_lines"] | length > 2
 
 - name: Remove /var/lib/jenkins directory
   file: path=/var/lib/jenkins/ state=absent
-  when: var_jenkins.stat.exists and contents["contents_var_jenkins"] | length > 2
+  when: var_jenkins.stat.exists
 
 - name: Create jenkins plugins directory
   file:
