@@ -79,13 +79,19 @@
     path: /var/lib/jenkins
   register: var_jenkins
 
+- name: "Check contents of /var/lib/jenkins"
+  shell: ls -la
+  args:
+    chdir: /var/lib/jenkins
+  register: contents_var_jenkins
+
 - name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
   shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}; chown -R jenkins:jenkins {{ jenkins_home }}"
-  when: var_jenkins.stat.exists
+  when: var_jenkins.stat.exists and contents["contents_var_jenkins"] | length > 2
 
 - name: Remove /var/lib/jenkins directory
   file: path=/var/lib/jenkins/ state=absent
-  when: var_jenkins.stat.exists
+  when: var_jenkins.stat.exists and contents["contents_var_jenkins"] | length > 2
 
 - name: Create jenkins plugins directory
   file:
