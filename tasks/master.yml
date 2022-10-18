@@ -48,12 +48,51 @@
   shell: pkill -u jenkins || true
   when: not h.stat.isdir|default(false)
 
+- name: wait for 30 secs to stop jenkins
+  pause:
+    minutes: 0.5
+  when: not h.stat.isdir|default(false)
+
+#- name: Get the PID of jenkins process
+#  ignore_errors: yes
+#  shell: "ps -few | grep jenkins | grep -v grep | awk '{print $2}'"
+#  register: running_processes
+#
+#- name: Kill jenkins processes
+#  ignore_errors: yes
+#  shell: "kill -9 {{ item }}"
+#  with_items: "{{ running_processes.stdout_lines }}"
+#
+#- name: sleep for 1 minute
+#  pause:
+#    minutes: 1
+
 - name: Ensure jenkins user home directory is in the appropriate location
   user:
     name:  "{{ jenkins_user }}"
     home:  "{{ jenkins_home }}"
     move_home: yes
   when: not h.stat.isdir|default(false)
+
+- name: "Check if /var/lib/jenkins exists"
+  stat:
+    path: /var/lib/jenkins
+  register: var_jenkins
+
+- name: "Check contents of /var/lib/jenkins"
+  ignore_errors: yes
+  shell: ls -la
+  args:
+    chdir: /var/lib/jenkins
+  register: contents_var_jenkins
+
+- name: "Copy files from /var/lib/jenkins to {{ jenkins_home }}"
+  shell: "cp -r /var/lib/jenkins/* {{ jenkins_home }}; chown -R jenkins:jenkins {{ jenkins_home }}"
+  when: var_jenkins.stat.exists and contents_var_jenkins["stdout_lines"] | length > 2
+
+- name: Remove /var/lib/jenkins directory
+  file: path=/var/lib/jenkins/ state=absent
+  when: var_jenkins.stat.exists
 
 - name: Create jenkins plugins directory
   file:
@@ -119,6 +158,16 @@
     mode:  0644
   when: ansible_os_family|lower == 'redhat'
   notify: Restart jenkins
+
+#- name: check jenkins admin password file in master
+#  stat:
+#    path: "/var/lib/jenkins/secrets/initialAdminPassword"
+#  register: password_file
+#
+#- name: Fail is  jenkins admin password file is not present in master
+#  fail:
+#    msg: "/var/lib/jenkins/secrets/initialAdminPassword file is not available"
+#  when: password_file.stat.exists == False
 
 - name: Start jenkins
   service: name=jenkins enabled=yes state=started
