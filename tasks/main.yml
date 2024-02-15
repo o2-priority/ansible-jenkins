@@ -24,6 +24,7 @@
 
 - name: Install extra pip3 packages desired
   pip3:
+    executable: pip3.10
     name:  "{{ item }}"
     state: present
   with_items: "{{ jenkins_pip3_pkgs_extra }}"
