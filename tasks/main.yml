@@ -22,5 +22,12 @@
     state: present
   with_items: "{{ jenkins_pip_pkgs_extra }}"
 
+- name: Install extra pip3 packages desired
+  pip:
+    executable: pip3
+    name:  "{{ item }}"
+    state: present
+  with_items: "{{ jenkins_pip3_pkgs_extra }}"
+
 - name: Jenkins Install
   include_tasks: "{{ jenkins_role|default('master') }}.yml"
