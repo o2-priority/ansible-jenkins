@@ -25,22 +25,6 @@
     name: jenkins
   when: jenkins_service.changed
 
-- name: Disable jenkins CSRF to run jenkins_script
-  jenkins_script:
-    script: |
-      url: "http://localhost:8080"
-      import jenkins.model.Jenkins
-
-      def jenkins = Jenkins.instance
-      def csrf = jenkins.getCrumbIssuer()
-      if (csrf != null) {
-        csrf.disable()
-        jenkins.save()
-      }
-    user: "{{ jenkins_admin_user }}"
-    password: "{{ jenkins_admin_pass }}"
-  when: jenkins_version >= "2.426.3"
-
 # As of Jenkins v2.121.3, setting "-Djenkins.install.runSetupWizard=false" flag
 # in JAVA_ARGS did not disable running of setup wizard as expected. Hence, the
 # workaround below.
