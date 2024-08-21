@@ -16,13 +16,13 @@
     dest=/usr/lib/systemd/system/jenkins.service
     regexp='^Environment="JAVA_OPTS=-Djava.awt.headless=true'
     line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
-  when: jenkins_version is not defined
+  when: jenkins_version >=2.332.1
   register: jenkins_service
 
 - name: Restart service jenkins, also issue daemon-reload to pick up config changes
-  ansible.builtin.systemd:
-    state: restarted
+  systemd:
     daemon_reload: yes
+    state: restarted
     name: jenkins
   when: jenkins_service.changed
 
