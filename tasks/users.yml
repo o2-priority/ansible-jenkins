@@ -14,7 +14,7 @@
   lineinfile:
     dest=/usr/lib/systemd/system/jenkins.service
     regexp='^Environment="JAVA_OPTS=-Djava.awt.headless=true'
-    line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+    line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP= -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"'
   when: jenkins_version >= "2.426.3"
   register: jenkins_service
 
