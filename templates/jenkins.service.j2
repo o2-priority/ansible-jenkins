@@ -55,7 +55,7 @@ Environment="JENKINS_LOG=/var/log/jenkins/jenkins.log"
 
 # Arguments for the Jenkins JVM
 #Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
-JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP= -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true -Djava.io.tmpdir=/data/jenkins/tmp"
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP= -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true -Djava.io.tmpdir=/data/jenkins/tmp"
 
 # IP address to listen on for HTTP requests.
 # The default is to listen on all interfaces (0.0.0.0).
