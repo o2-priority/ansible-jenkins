@@ -103,7 +103,7 @@
 - name: Create jenkins startup script default config | Debian
   template:
     src:   etc.default.jenkins.j2
-    dest:  /etc/default/jenkins
+        dest:  /etc/default/jenkins
     owner: root
     group: root
     mode:  0644
@@ -136,8 +136,11 @@
     name: jenkins
   when: jenkins_version >= "2.426.3"
 
-- name: Start jenkins
-    service: name=jenkins enabled=yes state=started
+- name: Start Jenkins service
+  service:
+    name: jenkins
+    enabled: yes
+    state: started
   when: jenkins_version <= "2.335"
 
 - name: Jenkins Post Init Scripts
