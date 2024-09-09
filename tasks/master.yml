@@ -103,7 +103,7 @@
 - name: Create jenkins startup script default config | Debian
   template:
     src:   etc.default.jenkins.j2
-        dest:  /etc/default/jenkins
+    dest:  /etc/default/jenkins
     owner: root
     group: root
     mode:  0644
