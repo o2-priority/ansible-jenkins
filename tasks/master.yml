@@ -137,7 +137,8 @@
   when: jenkins_version >= "2.426.3"
 
 - name: Start jenkins
-  service: name=jenkins enabled=yes state=started
+    service: name=jenkins enabled=yes state=started
+  when: jenkins_version <= "2.335"
 
 - name: Jenkins Post Init Scripts
   include_tasks: post-init.yml
