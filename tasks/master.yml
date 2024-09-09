@@ -120,6 +120,22 @@
   when: ansible_os_family|lower == 'redhat'
   notify: Restart jenkins
 
+- name: Create jenkins systemctl service
+  template:
+    src:   jenkins.service.j2
+    dest:  /usr/lib/systemd/system/jenkins.service
+    owner: root
+    group: root
+    mode:  0644
+  when: jenkins_version >= "2.426.3"
+
+- name: Restart service jenkins, also issue daemon-reload to pick up config changes
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: jenkins
+  when: jenkins_version >= "2.426.3"
+
 - name: Start jenkins
   service: name=jenkins enabled=yes state=started
 

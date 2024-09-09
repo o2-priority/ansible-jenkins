@@ -10,21 +10,6 @@
   set_fact: jenkins_admin_pass="{{ admin_pw.stdout }}"
   when: admin_pw is success and not jenkins_admin_pass
 
-- name: Jenkins Skip startUp for MI. below works for 2.332.1 or latest
-  lineinfile:
-    dest=/usr/lib/systemd/system/jenkins.service
-    regexp='^Environment="JAVA_OPTS=-Djava.awt.headless=true'
-    line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP= -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"'
-  when: jenkins_version >= "2.426.3"
-  register: jenkins_service
-
-- name: Restart service jenkins, also issue daemon-reload to pick up config changes
-  systemd:
-    daemon_reload: yes
-    state: restarted
-    name: jenkins
-  when: jenkins_service.changed
-
 # As of Jenkins v2.121.3, setting "-Djenkins.install.runSetupWizard=false" flag
 # in JAVA_ARGS did not disable running of setup wizard as expected. Hence, the
 # workaround below.
